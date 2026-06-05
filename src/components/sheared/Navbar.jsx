@@ -66,14 +66,13 @@ export default function Navbar() {
                 Sign In
               </Link>
 
-              <Button
-                as={Link}
-                href="/register"
-                color="primary"
-                radius="lg"
-                className="h-12 px-8 font-medium shadow-lg"
-              >
-                Get Started
+              <Button className={"bg-indigo-400"}>
+                <Link
+                  href="/register"
+                  className="px-2 py-4 font-medium shadow-lg"
+                >
+                  Get Started
+                </Link>
               </Button>
             </div>
 
@@ -134,12 +133,12 @@ export default function Navbar() {
               ))}
 
               <div className="mt-4 flex flex-col gap-3">
-                <Button as={Link} href="/login" variant="bordered" fullWidth>
+                <Link href="/login" variant="bordered" fullWidth>
                   Sign In
-                </Button>
+                </Link>
 
-                <Button as={Link} href="/register" color="primary" fullWidth>
-                  Get Started
+                <Button color="primary" fullWidth>
+                  <Link href="/register">Get Started</Link>
                 </Button>
               </div>
             </div>
