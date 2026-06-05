@@ -1,4 +1,4 @@
-import { Poppins } from "next/font/google";
+import { Poppins, Space_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/sheared/Navbar";
 import Footer from "@/components/sheared/Footer";
@@ -6,6 +6,11 @@ import Footer from "@/components/sheared/Footer";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const metadata = {

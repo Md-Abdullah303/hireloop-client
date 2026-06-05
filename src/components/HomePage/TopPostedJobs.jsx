@@ -1,0 +1,84 @@
+import React from "react";
+import HomaPageHeading from "./HomaPageHeading";
+import { DeafultPostCard } from "../UI/DeafultPostCard";
+
+const TopPostedJobs = () => {
+  const headingData = {
+    top: "Smart job discovery",
+    p1: "The roles you'd never",
+    p2: "find by searching",
+  };
+
+  const jobs = [
+    {
+      role: "MERN Stack Developer",
+      description:
+        "Looking for a mid-level MERN developer to build and maintain scalable web applications. Must be proficient in React, Node.js, and MongoDB.",
+      location: "Austin, TX",
+      type: "remote",
+      salary: 115000,
+      per: "year",
+    },
+    {
+      role: "Frontend Engineer",
+      description:
+        "Join our design-focused team to build beautiful, responsive user interfaces using Next.js, Tailwind CSS, and TypeScript.",
+      location: "San Francisco, CA",
+      type: "hybrid",
+      salary: 90,
+      per: "hour",
+    },
+    {
+      role: "Full Stack Developer (MERN)",
+      description:
+        "Seeking a senior developer to lead the migration of a legacy platform to a modern MERN stack architecture.",
+      location: "New York, NY",
+      type: "onsite",
+      salary: 140000,
+      per: "year",
+    },
+    {
+      role: "UI/UX Frontend Developer",
+      description:
+        "Contract role for a frontend specialist to implement complex animations and pixel-perfect layouts using React and Framer Motion.",
+      location: "Remote (US/Canada)",
+      type: "remote",
+      salary: 3500,
+      per: "week",
+    },
+    {
+      role: "Junior Backend Engineer",
+      description:
+        "Great opportunity for a junior Node.js/Express developer to assist in building robust RESTful APIs and managing database schemas.",
+      location: "Chicago, IL",
+      type: "hybrid",
+      salary: 6500,
+      per: "month",
+    },
+    {
+      role: "Lead MERN Instructor",
+      description:
+        "Part-time role to mentor and teach aspiring developers the fundamentals of JavaScript, React, Node, and database management.",
+      location: "Los Angeles, CA",
+      type: "onsite",
+      salary: 500,
+      per: "day",
+    },
+  ];
+
+  return (
+    <div className="bg-black pt-20 pb-15">
+      <div className=" mx-auto w-[90%] md:w-[80%]">
+        <HomaPageHeading data={headingData} />
+
+        <div className="px-4 grid grid-cols-3 gap-5 mt-8">
+          {jobs.map((job, ind) => (
+            <DeafultPostCard key={ind} job={job} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TopPostedJobs;
