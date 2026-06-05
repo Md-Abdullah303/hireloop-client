@@ -4,9 +4,21 @@ import { useState } from "react";
 import { Link, Button } from "@heroui/react";
 import logo from "@/assests/images/logo.png";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { data: session, isPending } = authClient.useSession();
+  const userData = session?.user;
+  console.log(userData);
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    router.push("/");
+  };
 
   const navItems = [
     {
@@ -59,21 +71,34 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center gap-5">
               <div className="h-6 w-px bg-white/10" />
 
-              <Link
-                href="/login"
-                className="text-sm font-medium text-indigo-400 hover:text-indigo-300"
-              >
-                Sign In
-              </Link>
+              {isPending ? (
+                "loading.."
+              ) : userData ? (
+                <>
+                  <h1 className=" text-indigo-400">Hi, {userData?.name}</h1>
+                  <Button
+                    onClick={handleSignOut}
+                    className="px-3 bg-indigo-400 py-4 font-medium shadow-lg"
+                  >
+                    SignOut
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/signup"
+                    className="text-sm font-medium text-indigo-400 hover:text-indigo-300"
+                  >
+                    Sign Up
+                  </Link>
 
-              <Button className={"bg-indigo-400"}>
-                <Link
-                  href="/register"
-                  className="px-2 py-4 font-medium shadow-lg"
-                >
-                  Get Started
-                </Link>
-              </Button>
+                  <Button className={"bg-indigo-400"}>
+                    <Link href="/" className="px-2 py-4 font-medium shadow-lg">
+                      Get Started
+                    </Link>
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Mobile Button */}
@@ -133,13 +158,31 @@ export default function Navbar() {
               ))}
 
               <div className="mt-4 flex flex-col gap-3">
-                <Link href="/login" variant="bordered" fullWidth>
-                  Sign In
-                </Link>
+                {isPending ? (
+                  "loading.."
+                ) : userData ? (
+                  <>
+                    <h1 className="text-indigo-400 text-center text-xl">
+                      Hi, {userData?.name}
+                    </h1>
+                    <Button
+                      onClick={handleSignOut}
+                      className="px-3 bg-indigo-400 w-full py-4 font-medium shadow-lg"
+                    >
+                      SignOut
+                    </Button>
+                  </>
+                ) : (
+                  <div className="flex flex-col gap-4">
+                    <Link href="/signup" variant="bordered" fullWidth>
+                      Sign Up
+                    </Link>
 
-                <Button color="primary" fullWidth>
-                  <Link href="/register">Get Started</Link>
-                </Button>
+                    <Button color="primary" fullWidth>
+                      <Link href="/">Get Started</Link>
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
