@@ -77,14 +77,15 @@ export default function SignUpForm() {
     }
   };
 
-  // Common input styles for clean code reusability
+  // Reusable responsive input styles
   const inputStyles =
     "w-full bg-[#1c1c1f] hover:bg-[#242427] focus:bg-[#1c1c1f] border border-white/5 focus:border-white/20 text-white placeholder-zinc-600 rounded-xl px-4 py-3 text-sm transition-all outline-none";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] px-4 relative overflow-hidden">
+    // py-10 অ্যাড করেছি যাতে ছোট ডিভাইসে ফর্ম হাইটের কারণে কেটে না যায়, স্ক্রোল করা যায়
+    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] px-4 py-10 relative overflow-hidden">
       {/* Background soft glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-zinc-500/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-zinc-500/5 blur-[100px] sm:blur-[120px] rounded-full pointer-events-none" />
 
       {/* Main Container */}
       <div
@@ -92,13 +93,13 @@ export default function SignUpForm() {
         className="w-full max-w-xl rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden relative z-10"
       >
         <Form className="flex flex-col h-full" onSubmit={onSubmit}>
-          {/* HEADER SECTION */}
-          <div className="flex items-center justify-between border-b border-white/10 px-8 py-6 bg-[#161619]/50">
+          {/* HEADER SECTION - Responsive Padding & Text Size */}
+          <div className="flex items-center justify-between border-b border-white/10 px-5 py-5 sm:px-8 sm:py-6 bg-[#161619]/50">
             <div>
-              <h1 className="text-xl font-semibold text-white tracking-tight">
+              <h1 className="text-lg sm:text-xl font-semibold text-white tracking-tight">
                 Register New Account
               </h1>
-              <p className="text-sm text-zinc-400 mt-1">
+              <p className="text-xs sm:text-sm text-zinc-400 mt-1">
                 Enter your details to start hiring on HireLoop.
               </p>
             </div>
@@ -113,19 +114,19 @@ export default function SignUpForm() {
             </Button>
           </div>
 
-          {/* FORM BODY */}
-          <div className="px-8 py-8 flex flex-col gap-6">
+          {/* FORM BODY - Responsive Padding */}
+          <div className="px-5 py-6 sm:px-8 sm:py-8 flex flex-col gap-5 sm:gap-6">
             {/* Status Notifications */}
             {error && (
               <div className="p-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                {error}
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />
+                <span className="break-words">{error}</span>
               </div>
             )}
             {success && (
               <div className="p-3 text-sm text-green-400 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                {success}
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                <span className="break-words">{success}</span>
               </div>
             )}
 
@@ -192,9 +193,9 @@ export default function SignUpForm() {
             </TextField>
           </div>
 
-          {/* FOOTER SECTION */}
-          <div className="border-t border-white/10 px-8 py-5 bg-[#161619]/40 flex items-center justify-between mt-auto">
-            <p className="text-sm text-zinc-400">
+          {/* FOOTER SECTION - Flex Direction updates for Mobile */}
+          <div className="border-t border-white/10 px-5 py-5 sm:px-8 bg-[#161619]/40 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0 mt-auto">
+            <p className="text-sm text-zinc-400 text-center sm:text-left">
               Already have an account?{" "}
               <Link
                 href="/signin"
@@ -204,11 +205,11 @@ export default function SignUpForm() {
               </Link>
             </p>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center sm:justify-end gap-3 w-full sm:w-auto">
               <Button
                 type="reset"
                 variant="light"
-                className="text-zinc-400 hover:text-white hover:bg-white/5 font-medium px-4 h-10 rounded-xl transition-all"
+                className="text-zinc-400 hover:text-white hover:bg-white/5 font-medium px-4 h-10 rounded-xl transition-all flex-1 sm:flex-initial"
               >
                 Reset
               </Button>
@@ -216,7 +217,7 @@ export default function SignUpForm() {
               <Button
                 type="submit"
                 isLoading={loading}
-                className="bg-white text-black hover:bg-zinc-200 font-semibold px-5 h-10 rounded-xl shadow-lg flex items-center gap-1.5 transition-all"
+                className="bg-white text-black hover:bg-zinc-200 font-semibold px-5 h-10 rounded-xl shadow-lg flex items-center justify-center gap-1.5 transition-all flex-1 sm:flex-initial"
               >
                 {!loading && <Check width={16} height={16} strokeWidth={2.5} />}
                 Register Account

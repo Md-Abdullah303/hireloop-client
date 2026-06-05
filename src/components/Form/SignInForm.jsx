@@ -46,7 +46,6 @@ export default function SignInForm() {
     const password = formData.get("password");
 
     try {
-      // Better Auth Sign In Method
       const res = await authClient.signIn.email({
         email,
         password,
@@ -57,14 +56,13 @@ export default function SignInForm() {
       } else {
         setSuccess("Logged in successfully! Redirecting... 🚀");
 
-        // Success animation pop
         gsap.to(cardRef.current, {
           scale: 1.01,
           duration: 0.15,
           yoyo: true,
           repeat: 1,
           onComplete: () => {
-            router.push("/"); // লগইন সফল হলে হোমপেজে বা ড্যাশবোর্ডে পাঠাবে
+            router.push("/");
           },
         });
       }
@@ -75,14 +73,15 @@ export default function SignInForm() {
     }
   };
 
-  // Input fields এর রিইউজেবল স্টাইল
+  // Reusable responsive input styles
   const inputStyles =
     "w-full bg-[#1c1c1f] hover:bg-[#242427] focus:bg-[#1c1c1f] border border-white/5 focus:border-white/20 text-white placeholder-zinc-600 rounded-xl px-4 py-3 text-sm transition-all outline-none";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] px-4 relative overflow-hidden">
+    // py-10 অ্যাড করা হয়েছে ছোট স্ক্রিনের হাইট ইস্যু ফিক্স করার জন্য
+    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] px-4 py-10 relative overflow-hidden">
       {/* Background Soft Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-zinc-500/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-zinc-500/5 blur-[100px] sm:blur-[120px] rounded-full pointer-events-none" />
 
       {/* Main Sign In Card Container */}
       <div
@@ -90,13 +89,13 @@ export default function SignInForm() {
         className="w-full max-w-xl rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden relative z-10"
       >
         <Form className="flex flex-col h-full" onSubmit={onSubmit}>
-          {/* HEADER SECTION */}
-          <div className="flex items-center justify-between border-b border-white/10 px-8 py-6 bg-[#161619]/50">
+          {/* HEADER SECTION - Responsive Padding & Typography */}
+          <div className="flex items-center justify-between border-b border-white/10 px-5 py-5 sm:px-8 sm:py-6 bg-[#161619]/50">
             <div>
-              <h1 className="text-xl font-semibold text-white tracking-tight">
+              <h1 className="text-lg sm:text-xl font-semibold text-white tracking-tight">
                 Welcome Back
               </h1>
-              <p className="text-sm text-zinc-400 mt-1">
+              <p className="text-xs sm:text-sm text-zinc-400 mt-1">
                 Sign in to manage your account on HireLoop.
               </p>
             </div>
@@ -111,19 +110,19 @@ export default function SignInForm() {
             </Button>
           </div>
 
-          {/* FORM BODY */}
-          <div className="px-8 py-8 flex flex-col gap-6">
-            {/* Error & Success Messages */}
+          {/* FORM BODY - Responsive Padding & Gaps */}
+          <div className="px-5 py-6 sm:px-8 sm:py-8 flex flex-col gap-5 sm:gap-6">
+            {/* Status Notifications */}
             {error && (
               <div className="p-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                {error}
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />
+                <span className="break-words">{error}</span>
               </div>
             )}
             {success && (
               <div className="p-3 text-sm text-green-400 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                {success}
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                <span className="break-words">{success}</span>
               </div>
             )}
 
@@ -158,7 +157,6 @@ export default function SignInForm() {
                 <Label className="text-sm font-medium text-zinc-300">
                   Password
                 </Label>
-                {/* অপশনাল: ফরগট পাসওয়ার্ড লিংক এড করতে পারেন */}
                 <Link
                   href="/forgot-password"
                   className="text-xs text-zinc-500 hover:text-white transition-colors"
@@ -174,9 +172,9 @@ export default function SignInForm() {
             </TextField>
           </div>
 
-          {/* FOOTER SECTION */}
-          <div className="border-t border-white/10 px-8 py-5 bg-[#161619]/40 flex items-center justify-between mt-auto">
-            <p className="text-sm text-zinc-400">
+          {/* FOOTER SECTION - Responsive Stack for Mobile View */}
+          <div className="border-t border-white/10 px-5 py-5 sm:px-8 bg-[#161619]/40 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0 mt-auto">
+            <p className="text-sm text-zinc-400 text-center sm:text-left">
               Don't have an account?{" "}
               <Link
                 href="/signup"
@@ -186,11 +184,11 @@ export default function SignInForm() {
               </Link>
             </p>
 
-            <div className="flex items-center gap-3">
+            <div className="w-full sm:w-auto">
               <Button
                 type="submit"
                 isLoading={loading}
-                className="bg-white text-black hover:bg-zinc-200 font-semibold px-6 h-10 rounded-xl shadow-lg flex items-center gap-1.5 transition-all"
+                className="w-full sm:w-auto bg-white text-black hover:bg-zinc-200 font-semibold px-6 h-10 rounded-xl shadow-lg flex items-center justify-center gap-1.5 transition-all"
               >
                 {!loading && <Check width={16} height={16} strokeWidth={2.5} />}
                 Sign In
