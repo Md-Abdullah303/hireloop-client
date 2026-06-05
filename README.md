@@ -11,7 +11,7 @@ Designed for both individuals and organizations, HireLoop simplifies the talent 
 To deploy this project run
 
 ```bash
-  npm run deploy
+  https://hireloop-client-chi.vercel.app
 ```
 
 ## Features
