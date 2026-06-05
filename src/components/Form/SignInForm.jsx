@@ -175,7 +175,7 @@ export default function SignInForm() {
           {/* FOOTER SECTION - Responsive Stack for Mobile View */}
           <div className="border-t border-white/10 px-5 py-5 sm:px-8 bg-[#161619]/40 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0 mt-auto">
             <p className="text-sm text-zinc-400 text-center sm:text-left">
-              Don't have an account?{" "}
+              {`Don't have an account?`}{" "}
               <Link
                 href="/signup"
                 className="text-white hover:underline font-medium transition-all"
