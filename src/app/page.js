@@ -1,5 +1,6 @@
 import Banner from "@/components/HomePage/Banner";
 import SomeThingYouNeeded from "@/components/HomePage/SomeThingYouNeeded";
+import SubscriptionPlanSection from "@/components/HomePage/SubscriptionPlanSection";
 import TopPostedJobs from "@/components/HomePage/TopPostedJobs";
 import Image from "next/image";
 
@@ -10,6 +11,7 @@ export default function Home() {
         <Banner />
         <TopPostedJobs />
         <SomeThingYouNeeded />
+        <SubscriptionPlanSection />
       </div>
     </div>
   );
