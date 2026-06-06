@@ -1,6 +1,7 @@
 import React from "react";
 import HomaPageHeading from "./HomaPageHeading";
 import { DeafultPostCard } from "../UI/DeafultPostCard";
+import { Button } from "@heroui/react";
 
 const TopPostedJobs = () => {
   const headingData = {
@@ -71,11 +72,16 @@ const TopPostedJobs = () => {
       <div className=" mx-auto w-[90%] md:w-[80%]">
         <HomaPageHeading data={headingData} />
 
-        <div className="px-4 grid grid-cols-3 gap-5 mt-8">
+        <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-8">
           {jobs.map((job, ind) => (
             <DeafultPostCard key={ind} job={job} />
           ))}
         </div>
+      </div>
+      <div className="mx-auto w-fit mt-10">
+        <Button className={"rounded-lg bg-white text-black"}>
+          View all job open
+        </Button>
       </div>
     </div>
   );
