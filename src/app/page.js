@@ -1,4 +1,5 @@
 import Banner from "@/components/HomePage/Banner";
+import NextroleSection from "@/components/HomePage/NextroleSection";
 import SomeThingYouNeeded from "@/components/HomePage/SomeThingYouNeeded";
 import SubscriptionPlanSection from "@/components/HomePage/SubscriptionPlanSection";
 import TopPostedJobs from "@/components/HomePage/TopPostedJobs";
@@ -12,6 +13,7 @@ export default function Home() {
         <TopPostedJobs />
         <SomeThingYouNeeded />
         <SubscriptionPlanSection />
+        <NextroleSection />
       </div>
     </div>
   );
