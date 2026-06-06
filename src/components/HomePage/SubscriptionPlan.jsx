@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-// Fixed: Reference code onujayi HeroUI theke direct primitives import kora holo
 import { Card, Button } from "@heroui/react";
 import {
   CrownDiamond,
@@ -57,7 +56,7 @@ export function SubscriptionPlan() {
   const [isYearly, setIsYearly] = useState(false);
 
   return (
-    <div className="bg-black  text-white p-10  flex flex-col items-center gap-8 font-sans">
+    <div className="bg-black text-white p-6 sm:p-10 flex flex-col items-center gap-8 font-sans ">
       {/* --- Toggle Switch Header --- */}
       <div className="flex items-center bg-[#1c1c1e] p-1.5 rounded-full border border-neutral-800">
         <button
@@ -81,8 +80,9 @@ export function SubscriptionPlan() {
         </button>
       </div>
 
-      {/* --- Cards Grid Layout --- */}
-      <div className="flex flex-wrap justify-center gap-6 max-w-7xl w-full">
+      {/* --- Cards Grid Layout (Fixed Jala) --- */}
+      {/* max-w layout bound controls set kora hoyeche jeno layout track bhenge na jay */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl justify-center items-stretch">
         {pricingData.map((plan) => {
           const currentPrice = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
           const isGrowthPlan = plan.id === "growth";
@@ -90,15 +90,16 @@ export function SubscriptionPlan() {
           return (
             <Card
               key={plan.id}
-              className={`w-[360px] p-6 bg-[#0f0f11] text-white flex flex-col justify-between transition-all border ${
+              /* w-[360px] soriye w-full kora hoyeche jeno grid column fill up kore thake 
+                 ebong card niche-upore soman unchu thake tar jonno h-full are stretch deya holo */
+              className={`w-full h-full p-6 bg-[#0f0f11] text-white flex flex-col justify-between transition-all border ${
                 isGrowthPlan
-                  ? "border-neutral-700 ring-1 ring-neutral-700"
+                  ? "border-neutral-700 ring-1 ring-neutral-700 shadow-[0_0_30px_rgba(168,85,247,0.15)]"
                   : "border-neutral-900"
               }`}
             >
               <div>
-                {/* Fixed: Reference code rules match kore Header segment rendering safe kora hoyeche */}
-                <Card.Header className="flex flex-col items-stretch p-0 pb-6">
+                <Card.Header className="flex flex-col items-stretch p-0 pb-6 overflow-hidden">
                   <div className="flex justify-between items-start w-full">
                     <div className="flex items-center gap-2">
                       <div className="p-2 bg-neutral-900 border border-neutral-800 rounded-lg">
@@ -130,7 +131,7 @@ export function SubscriptionPlan() {
                       key={idx}
                       className="flex items-center gap-3 text-neutral-400 text-sm"
                     >
-                      <div className="p-1 bg-neutral-900 rounded-md border border-neutral-800 flex items-center justify-center">
+                      <div className="p-1 bg-neutral-900 rounded-md border border-neutral-800 flex items-center justify-center shrink-0">
                         <Plus className="size-3.5 text-neutral-500" />
                       </div>
                       <span>{feature}</span>
@@ -139,7 +140,6 @@ export function SubscriptionPlan() {
                 </ul>
               </div>
 
-              {/* Fixed: Safe dynamic Card.Footer injection matching reference example */}
               <Card.Footer className="p-0 mt-auto">
                 <Button
                   endContent={<ArrowRight className="size-4" />}

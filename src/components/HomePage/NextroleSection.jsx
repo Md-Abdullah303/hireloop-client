@@ -4,7 +4,7 @@ import { Button } from "@heroui/react";
 
 const NextroleSection = () => {
   return (
-    <div className="bg-black py-16 px-4 sm:px-6 md:py-24 lg:py-32 flex items-center justify-center overflow-hidden w-full antialiased selection:bg-neutral-800">
+    <div className="bg-black pt-16 px-4 sm:px-6 md:pt-24 lg:pt-32 flex items-center justify-center overflow-hidden w-full antialiased selection:bg-neutral-800">
       {/* Container Frame: Exact width & height control overlay setup 
         Image er moto semi-circle radial effect container layer logic
       */}
