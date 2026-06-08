@@ -1,9 +1,39 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import HomaPageHeading from "./HomaPageHeading";
 import { DeafultPostCard } from "../UI/DeafultPostCard";
 import { Button } from "@heroui/react";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const TopPostedJobs = () => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".jobs-animate", {
+        y: 40,
+        opacity: 0,
+        filter: "blur(10px)",
+        duration: 1,
+        stagger: 0.12,
+        ease: "power3.out",
+
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%", // section viewport এর 80% এ আসলে start হবে
+          toggleActions: "play none none none",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const headingData = {
     top: "Smart job discovery",
     p1: "The roles you'd never",
@@ -68,18 +98,21 @@ const TopPostedJobs = () => {
   ];
 
   return (
-    <div className="bg-black pt-20 pb-15">
-      <div className=" mx-auto w-[90%] md:w-[80%]">
+    <div ref={sectionRef} className="bg-black pt-20 pb-15">
+      <div className="jobs-animate mx-auto w-[90%] md:w-[80%]">
         <HomaPageHeading data={headingData} />
 
         <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-8">
           {jobs.map((job, ind) => (
-            <DeafultPostCard key={ind} job={job} />
+            <div key={ind} className="jobs-animate">
+              <DeafultPostCard job={job} />
+            </div>
           ))}
         </div>
       </div>
-      <div className="mx-auto w-fit mt-10">
-        <Button className={"rounded-lg bg-white text-black"}>
+
+      <div className="jobs-animate mx-auto w-fit mt-10">
+        <Button className="rounded-lg bg-white text-black">
           View all job open
         </Button>
       </div>
