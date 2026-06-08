@@ -9,7 +9,7 @@ export function DeafultPostCard({ job }) {
   const { role, description, location, salary, per, type } = job;
 
   return (
-    <Card className="max-w-[400px] p-4 bg-zinc-900 text-white border border-zinc-800">
+    <Card className=" p-4 bg-zinc-900 text-white border border-zinc-800">
       <div className="flex items-center gap-2 mb-3">
         <CircleDollar
           aria-label="Dollar sign icon"
