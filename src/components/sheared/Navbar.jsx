@@ -86,14 +86,17 @@ export default function Navbar() {
               ) : (
                 <>
                   <Link
-                    href="/signup"
+                    href="/signin"
                     className="text-sm font-medium text-indigo-400 hover:text-indigo-300"
                   >
-                    Sign Up
+                    Sign In
                   </Link>
 
                   <Button className={"bg-indigo-400"}>
-                    <Link href="/" className="px-2 py-4 font-medium shadow-lg">
+                    <Link
+                      href="/signup"
+                      className="px-2 py-4 font-medium shadow-lg"
+                    >
                       Get Started
                     </Link>
                   </Button>

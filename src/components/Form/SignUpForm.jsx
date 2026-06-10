@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 
+import { Description, Radio, RadioGroup } from "@heroui/react";
 import {
   Button,
   Form,
@@ -11,7 +12,6 @@ import {
   Label,
   TextField,
   FieldError,
-  Description,
 } from "@heroui/react";
 
 import { Check, Xmark } from "@gravity-ui/icons";
@@ -25,6 +25,7 @@ export default function SignUpForm() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState("seeker");
 
   // GSAP Entrance Animation
   useEffect(() => {
@@ -52,6 +53,7 @@ export default function SignUpForm() {
         name,
         email,
         password,
+        role,
       });
 
       if (res?.error) {
@@ -59,6 +61,7 @@ export default function SignUpForm() {
       } else {
         e.target.reset();
         setSuccess("Account created successfully 🎉");
+        console.log(Object.fromEntries(formData.entries()));
 
         gsap.to(cardRef.current, {
           scale: 1.01,
@@ -82,7 +85,6 @@ export default function SignUpForm() {
     "w-full bg-[#1c1c1f] hover:bg-[#242427] focus:bg-[#1c1c1f] border border-white/5 focus:border-white/20 text-white placeholder-zinc-600 rounded-xl px-4 py-3 text-sm transition-all outline-none";
 
   return (
-    // py-10 অ্যাড করেছি যাতে ছোট ডিভাইসে ফর্ম হাইটের কারণে কেটে না যায়, স্ক্রোল করা যায়
     <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] px-4 py-10 relative overflow-hidden">
       {/* Background soft glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-zinc-500/5 blur-[100px] sm:blur-[120px] rounded-full pointer-events-none" />
@@ -191,6 +193,34 @@ export default function SignUpForm() {
               </Description>
               <FieldError className="text-xs text-red-400 mt-1" />
             </TextField>
+
+            {/* Redio Field */}
+            <div className="flex  flex-col gap-4">
+              <Label className="text-gray-400">{`What's your role?`}</Label>
+              <RadioGroup
+                onChange={(value) => setRole(value)}
+                defaultValue="seeker"
+                name="role"
+                orientation="horizontal"
+              >
+                <Radio value="seeker">
+                  <Radio.Control>
+                    <Radio.Indicator />
+                  </Radio.Control>
+                  <Radio.Content>
+                    <Label>Job Seeker</Label>
+                  </Radio.Content>
+                </Radio>
+                <Radio value="recruiter">
+                  <Radio.Control>
+                    <Radio.Indicator />
+                  </Radio.Control>
+                  <Radio.Content>
+                    <Label>Recruiter</Label>
+                  </Radio.Content>
+                </Radio>
+              </RadioGroup>
+            </div>
           </div>
 
           {/* FOOTER SECTION - Flex Direction updates for Mobile */}
