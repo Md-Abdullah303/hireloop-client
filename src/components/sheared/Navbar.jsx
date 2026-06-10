@@ -56,6 +56,14 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-12">
+              {userData && (
+                <Link
+                  href={`/dashboard/${userData.role}`}
+                  className="text-sm font-medium text-zinc-300 transition-all duration-300 hover:text-white"
+                >
+                  Dashboard
+                </Link>
+              )}
               {navItems.map((item) => (
                 <Link
                   key={item.label}
@@ -150,6 +158,14 @@ export default function Navbar() {
         >
           <div className="border-t border-white/10 px-6 py-6">
             <div className="flex flex-col gap-4">
+              {userData && (
+                <Link
+                  href={`/dashboard/${userData.role}`}
+                  className="py-2 text-zinc-300 hover:text-white"
+                >
+                  Dashboard
+                </Link>
+              )}
               {navItems.map((item) => (
                 <Link
                   key={item.label}
