@@ -2,6 +2,7 @@ import { Poppins, Space_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/sheared/Navbar";
 import Footer from "@/components/sheared/Footer";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,6 +31,9 @@ export default function RootLayout({ children }) {
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <div>
+          <Toaster />
+        </div>
       </body>
     </html>
   );

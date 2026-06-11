@@ -1,35 +1,41 @@
 import {
   Bars,
-  Bell,
+  Suitcase,
   Envelope,
   Gear,
   House,
-  Magnifier,
+  Plus,
   Person,
 } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
+import Link from "next/link";
 
 export function DashboardSidebar() {
   const navItems = [
-    { icon: House, label: "Home" },
-    { icon: Magnifier, label: "Search" },
-    { icon: Bell, label: "Notifications" },
-    { icon: Envelope, label: "Messages" },
-    { icon: Person, label: "Profile" },
-    { icon: Gear, label: "Settings" },
+    { icon: House, label: "Home", href: "/dashboard/recruiter" },
+    {
+      icon: Plus,
+      label: "Add Job",
+      href: "/dashboard/recruiter/jobs/new",
+    },
+    { icon: Suitcase, label: "Jobs", href: "/dashboard/recruiter/jobs" },
+    { icon: Envelope, label: "Messages", href: "/dashboard/recruiter" },
+    { icon: Person, label: "Profile", href: "/dashboard/recruiter" },
+    { icon: Gear, label: "Settings", href: "/dashboard/recruiter" },
   ];
 
   const navContent = (
     <nav className="flex flex-col gap-1">
       {navItems.map((item) => (
-        <button
-          key={item.label}
-          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
-          type="button"
-        >
-          <item.icon className="size-5 text-muted" />
-          {item.label}
-        </button>
+        <Link key={item.label} href={item.href}>
+          <button
+            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
+            type="button"
+          >
+            <item.icon className="size-5 text-muted" />
+            {item.label}
+          </button>
+        </Link>
       ))}
     </nav>
   );
