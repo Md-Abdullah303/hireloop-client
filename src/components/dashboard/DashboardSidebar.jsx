@@ -1,5 +1,5 @@
 import {
-  Bars,
+  LayoutSideContent,
   Suitcase,
   Envelope,
   Gear,
@@ -46,8 +46,8 @@ export function DashboardSidebar() {
         {navContent}
       </aside>
       <Drawer>
-        <Button className={"lg:hidden"} variant="secondary">
-          <Bars />
+        <Button className={"lg:hidden my-10 mx-4"} variant="ghost">
+          <LayoutSideContent />
           Menu
         </Button>
         <Drawer.Backdrop>
