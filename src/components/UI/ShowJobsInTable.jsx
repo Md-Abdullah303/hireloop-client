@@ -1,6 +1,7 @@
 import { Eye, Pencil, TrashBin } from "@gravity-ui/icons";
 import { Button, Table } from "@heroui/react";
 import { ViewJobModal } from "./RecruiterModals/ViewJobModal";
+import { EditJobModal } from "./RecruiterModals/EditJobModal";
 
 export function ShowJobsInTable({ companyJobs }) {
   //   console.log(companyJobs);
@@ -29,9 +30,7 @@ export function ShowJobsInTable({ companyJobs }) {
                 <Table.Cell>{companyJob.status}</Table.Cell>
                 <Table.Cell>
                   <ViewJobModal companyJob={companyJob} />
-                  <Button className={" rounded-full"} variant="ghost">
-                    <Pencil />
-                  </Button>
+                  <EditJobModal companyJob={companyJob} />
                   <Button
                     className={"text-red-500 rounded-full"}
                     variant="ghost"
