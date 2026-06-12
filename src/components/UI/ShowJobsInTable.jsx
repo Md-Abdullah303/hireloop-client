@@ -1,5 +1,6 @@
 import { Eye, Pencil, TrashBin } from "@gravity-ui/icons";
 import { Button, Table } from "@heroui/react";
+import { ViewJobModal } from "./RecruiterModals/ViewJobModal";
 
 export function ShowJobsInTable({ companyJobs }) {
   //   console.log(companyJobs);
@@ -27,9 +28,7 @@ export function ShowJobsInTable({ companyJobs }) {
                 <Table.Cell>{`${companyJob.isRemote ? "Any were" : `${companyJob.city}, ${companyJob.country}`}`}</Table.Cell>
                 <Table.Cell>{companyJob.status}</Table.Cell>
                 <Table.Cell>
-                  <Button className={" rounded-full"} variant="ghost">
-                    <Eye />
-                  </Button>
+                  <ViewJobModal companyJob={companyJob} />
                   <Button className={" rounded-full"} variant="ghost">
                     <Pencil />
                   </Button>
