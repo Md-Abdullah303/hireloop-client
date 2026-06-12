@@ -72,7 +72,7 @@ export default function NewJobsPage() {
     if (res.insertedId) {
       e.target.reset();
       toast(`Job Saved Successfully!`);
-      redirect(`/dashboard/recruiter`);
+      redirect(`/dashboard/recruiter/jobs`);
     }
     // console.log("res", res);
   };
