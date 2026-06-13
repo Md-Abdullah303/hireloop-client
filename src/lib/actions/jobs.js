@@ -1,17 +1,11 @@
 "use server";
 
+import { postServerMutation } from "../core/server";
+
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 // console.log(baseUrl);
 export const createJob = async (newJobData) => {
-  const res = await fetch(`${baseUrl}/api/jobs`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newJobData),
-  });
-
-  return res.json();
+  return await postServerMutation("/api/jobs", newJobData);
 };
 
 export const editJob = async (jobId, editJobData) => {

@@ -18,6 +18,11 @@ export function DashboardSidebar() {
       label: "Add Job",
       href: "/dashboard/recruiter/jobs/new",
     },
+    {
+      icon: Plus,
+      label: "Add Company",
+      href: "/dashboard/recruiter/company",
+    },
     { icon: Suitcase, label: "Jobs", href: "/dashboard/recruiter/jobs" },
     { icon: Envelope, label: "Messages", href: "/dashboard/recruiter" },
     { icon: Person, label: "Profile", href: "/dashboard/recruiter" },
