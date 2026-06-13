@@ -1,10 +1,11 @@
 import { ShowJobsInTable } from "@/components/UI/ShowJobsInTable";
+import { getLoggedIdRecruiterCompany } from "@/lib/api/companies";
 import { getCompanyJob } from "@/lib/api/jobs";
 import React from "react";
 
 const RecruiterJobsPage = async () => {
-  const companyId = "companyId_123";
-  const companyJobs = await getCompanyJob(companyId);
+  const company = await getLoggedIdRecruiterCompany();
+  const companyJobs = await getCompanyJob(company?._id);
   // console.log(companyJobs, "Company Jobs");
 
   return (

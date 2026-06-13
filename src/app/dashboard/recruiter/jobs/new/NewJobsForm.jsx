@@ -17,7 +17,6 @@ import {
   Fieldset,
   Form,
   Input,
-  InputGroup,
   Label,
   TextArea,
   TextField,
@@ -25,33 +24,38 @@ import {
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import { createJob } from "@/lib/actions/jobs";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation"; // redirect এর বদলে useRouter ব্যবহার করা ভালো
 
 export default function NewJobsForm({ company }) {
-  console.log(company);
-  // Mock data representing state normally fetched from your database/auth session
-  const [recruiterCompany] = useState({
-    name: "PixelCraft Studios",
-    id: "companyId_123",
-    isApproved: true,
-    plan: "Growth", // "Free", "Growth", or "Enterprise"
-    activeJobsCount: 4, // Current count of live jobs
-  });
+  const router = useRouter();
 
-  // Limits lookup dictionary based on project requirements
+  // ১. আপনার ডাটাবেজের স্ট্যাটাস চেক ("Approved" হলে পোস্ট করতে পারবে)
+  // const isApproved = company?.status === "Approved";
+  const isApproved = true;
+
+  // ২. সেফটি চেক (যদি ডেটাতে plan বা activeJobsCount না থাকে তবে ডিফল্ট ভ্যালু)
+  const companyPlan = company?.plan || "Free";
+  const activeJobs = company?.activeJobsCount || 0;
+
+  // Limits lookup dictionary
   const planLimits = { Free: 3, Growth: 10, Enterprise: 50 };
-  const currentLimit = planLimits[recruiterCompany.plan] || 0;
-  const isLimitReached = recruiterCompany.activeJobsCount >= currentLimit;
-  const canPost = recruiterCompany.isApproved && !isLimitReached;
+  const currentLimit = planLimits[companyPlan] || 0;
+  const isLimitReached = activeJobs >= currentLimit;
 
-  // Form states for Select/Dropdown alternatives and specific inputs
+  // কন্ডিশন: অনুমোদিত হতে হবে এবং কোটা খালি থাকতে হবে
+  const canPost = isApproved && !isLimitReached;
+
+  // Form states
   const [jobType, setJobType] = useState("Full-time");
   const [currency, setCurrency] = useState("USD");
   const [isRemote, setIsRemote] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!canPost) return;
+    if (!canPost) {
+      toast.error("You are not allowed to post a job right now.");
+      return;
+    }
 
     const formData = new FormData(e.currentTarget);
     const createNewData = {};
@@ -60,43 +64,46 @@ export default function NewJobsForm({ company }) {
       createNewData[key] = value.toString();
     });
 
-    // Injected controlled select values & metadata explicitly requested
+    // মেটাডাটা অ্যাসাইন (আপনার ডাটার আইডি ফিল্ড হচ্ছে _id)
     createNewData.jobType = jobType;
     createNewData.currency = currency;
     createNewData.isRemote = isRemote;
-    createNewData.companyName = recruiterCompany.name;
-    createNewData.companyId = recruiterCompany.id;
+    createNewData.companyName = company?.name;
+    createNewData.companyId = company?._id; // এখানে _id ব্যবহার করা হয়েছে
+    createNewData.companyLogo = company?.logo;
     createNewData.status = "active";
     createNewData.isPubliclyVisible = true;
 
-    const res = await createJob(createNewData);
-    if (res.insertedId) {
-      e.target.reset();
-      toast(`Job Saved Successfully!`);
-      redirect(`/dashboard/recruiter/jobs`);
+    try {
+      const res = await createJob(createNewData);
+      if (res?.insertedId) {
+        e.target.reset();
+        toast.success(`Job Saved Successfully!`);
+        router.push(`/dashboard/recruiter/jobs`);
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
     }
-    // console.log("res", res);
   };
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 md:p-8 text-zinc-100 min-h-screen">
-      {/* Dynamic System/Plan Guard Banner notifications */}
-      {!recruiterCompany.isApproved ? (
+      {/* স্ট্যাটাস পেন্ডিং হলে ব্যানার দেখাবে */}
+      {!isApproved ? (
         <div className="mb-6 p-4 bg-danger-500/10 border border-danger-500/20 text-danger-400 rounded-xl text-sm flex gap-3 items-center">
           <Xmark className="size-5" />
           <span>
-            Your company profile is pending approval. You can only post publicly
-            visible listings once approved.
+            Your company profile is pending approval ({company?.status}). You
+            can only post publicly visible listings once approved.
           </span>
         </div>
       ) : isLimitReached ? (
         <div className="mb-6 p-4 bg-warning-500/10 border border-warning-500/20 text-warning-400 rounded-xl text-sm flex gap-3 items-center">
           <Flame className="size-5" />
           <span>
-            Plan quota reached! Your{" "}
-            <strong>{recruiterCompany.plan} Plan</strong> allows up to{" "}
-            {currentLimit} active jobs ({recruiterCompany.activeJobsCount}{" "}
-            live). Upgrade to post more.
+            Plan quota reached! Your <strong>{companyPlan} Plan</strong> allows
+            up to {currentLimit} active jobs ({activeJobs} live). Upgrade to
+            post more.
           </span>
         </div>
       ) : null}
@@ -105,27 +112,25 @@ export default function NewJobsForm({ company }) {
         className="space-y-8 bg-[#111112] border border-[#222224] p-6 md:p-8 rounded-2xl shadow-xl"
         onSubmit={handleSubmit}
       >
-        {/* SECTION 1: Company Profile Info (Auto-filled Banner) */}
+        {/* SECTION 1: Company Profile Info */}
         <div className="p-4 bg-[#18181b] border border-[#27272a] rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
               Posting Organization
             </span>
             <h4 className="text-white text-lg font-bold">
-              {recruiterCompany.name}
+              {company?.name || "N/A"}
             </h4>
           </div>
           <div className="text-sm text-zinc-400 sm:text-right">
             <div>
               Current Tier:{" "}
-              <span className="text-primary font-medium">
-                {recruiterCompany.plan}
-              </span>
+              <span className="text-primary font-medium">{companyPlan}</span>
             </div>
             <div>
               Usage:{" "}
               <span className="text-zinc-200">
-                {recruiterCompany.activeJobsCount} / {currentLimit} Jobs
+                {activeJobs} / {currentLimit} Jobs
               </span>
             </div>
           </div>
@@ -154,7 +159,7 @@ export default function NewJobsForm({ company }) {
               <FieldError />
             </TextField>
 
-            {/* Custom Input Dropdown for Job Type */}
+            {/* Job Type Dropdown */}
             <div className="flex flex-col gap-1.5">
               <Label className="text-sm font-medium">Job Type</Label>
               <Dropdown>
@@ -199,7 +204,7 @@ export default function NewJobsForm({ company }) {
                 <FieldError />
               </TextField>
 
-              {/* Currency Selector Dropdown */}
+              {/* Currency Selector */}
               <div className="flex flex-col gap-1.5">
                 <Label className="text-sm font-medium">Currency</Label>
                 <Dropdown>
@@ -229,7 +234,7 @@ export default function NewJobsForm({ company }) {
               </div>
             </div>
 
-            {/* Location block accompanied by a remote state switch context */}
+            {/* Location block */}
             <div className="md:col-span-2 space-y-4">
               <div className="flex items-center justify-between p-3 bg-[#18181b]/50 border border-[#27272a] rounded-xl">
                 <div className="flex flex-col">

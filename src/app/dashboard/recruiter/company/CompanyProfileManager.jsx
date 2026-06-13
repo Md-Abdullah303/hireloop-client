@@ -58,6 +58,7 @@ async function uploadToImgbb(file) {
 export default function CompanyProfileManager({ userData, recruiterCompany }) {
   // --- STATES ---
   const [company, setCompany] = useState(recruiterCompany);
+
   // ডেটা স্ট্রাকচার: { name, websiteUrl, logo, industry, location, employeeCount, description, status }
 
   const [isEditing, setIsEditing] = useState(false);
@@ -114,6 +115,8 @@ export default function CompanyProfileManager({ userData, recruiterCompany }) {
     setIsEditing(false);
   };
 
+  console.log(company?.status);
+
   // --- DYNAMIC STATUS BADGE STYLING ---
   const getStatusStyle = (status) => {
     switch (status) {
@@ -127,7 +130,7 @@ export default function CompanyProfileManager({ userData, recruiterCompany }) {
   };
 
   // ==================== STATE ১: কোনো কোম্পানি রেজিস্টার্ড নেই ====================
-  if (!company && !isEditing) {
+  if (!company?._id && !isEditing) {
     return (
       <div className="max-w-4xl mx-auto my-12 bg-[#111112] border border-[#222224] p-8 rounded-2xl shadow-xl text-center space-y-6">
         <div className="flex justify-center">
