@@ -55,9 +55,9 @@ async function uploadToImgbb(file) {
 }
 
 // ==================== MAIN COMPONENT ====================
-export default function CompanyProfileManager({ userData }) {
+export default function CompanyProfileManager({ userData, recruiterCompany }) {
   // --- STATES ---
-  const [company, setCompany] = useState(null);
+  const [company, setCompany] = useState(recruiterCompany);
   // ডেটা স্ট্রাকচার: { name, websiteUrl, logo, industry, location, employeeCount, description, status }
 
   const [isEditing, setIsEditing] = useState(false);
