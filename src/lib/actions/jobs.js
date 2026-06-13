@@ -24,3 +24,13 @@ export const editJob = async (jobId, editJobData) => {
   });
   return await res.json();
 };
+
+export const deleteJob = async (jobId) => {
+  const res = await fetch(`${baseUrl}/api/jobs?jobId=${jobId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res.json();
+};

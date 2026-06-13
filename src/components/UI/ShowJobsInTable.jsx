@@ -2,6 +2,7 @@ import { Eye, Pencil, TrashBin } from "@gravity-ui/icons";
 import { Button, Table } from "@heroui/react";
 import { ViewJobModal } from "./RecruiterModals/ViewJobModal";
 import { EditJobModal } from "./RecruiterModals/EditJobModal";
+import { DeleteJobModal } from "./RecruiterModals/DeleteJobModal";
 // import { editJob } from "@/lib/actions/jobs";
 
 export function ShowJobsInTable({ companyJobs }) {
@@ -31,12 +32,7 @@ export function ShowJobsInTable({ companyJobs }) {
                 <Table.Cell>
                   <ViewJobModal companyJob={companyJob} />
                   <EditJobModal companyJob={companyJob} />
-                  <Button
-                    className={"text-red-500 rounded-full"}
-                    variant="ghost"
-                  >
-                    <TrashBin />
-                  </Button>
+                  <DeleteJobModal companyJob={companyJob} />
                 </Table.Cell>
               </Table.Row>
             ))}
