@@ -2,9 +2,9 @@ import { Eye, Pencil, TrashBin } from "@gravity-ui/icons";
 import { Button, Table } from "@heroui/react";
 import { ViewJobModal } from "./RecruiterModals/ViewJobModal";
 import { EditJobModal } from "./RecruiterModals/EditJobModal";
+// import { editJob } from "@/lib/actions/jobs";
 
 export function ShowJobsInTable({ companyJobs }) {
-  //   console.log(companyJobs);
   return (
     <Table>
       <Table.ScrollContainer>

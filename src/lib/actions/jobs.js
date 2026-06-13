@@ -13,3 +13,14 @@ export const createJob = async (newJobData) => {
 
   return res.json();
 };
+
+export const editJob = async (jobId, editJobData) => {
+  const res = await fetch(`${baseUrl}/api/jobs?jobId=${jobId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(editJobData),
+  });
+  return await res.json();
+};

@@ -25,9 +25,12 @@ import {
   TextArea,
   TextField,
 } from "@heroui/react";
+import { editJob } from "@/lib/actions/jobs";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export function EditJobModal({ companyJob }) {
-  // মোডাল ওপেন/ক্লোজ কন্ট্রোল করার জন্য স্টেট
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   // ড্রপডাউন এবং রিমোট টগলের জন্য ডিফল্ট স্টেট
@@ -35,13 +38,11 @@ export function EditJobModal({ companyJob }) {
   const [currency, setCurrency] = useState(companyJob?.currency || "USD");
   const [isRemote, setIsRemote] = useState(companyJob?.isRemote || false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // FormData ব্যবহার করে ফর্মের সব ইনপুট ফিল্ডের লেটেস্ট ডেটা নেওয়া হয়েছে
     const formData = new FormData(e.currentTarget);
 
-    // অবজেক্ট ট্র্যাকিং: সব ডেটা `editedData` নামক অবজেক্টে স্টোর করা হচ্ছে
     const editedData = {
       jobTitle: formData.get("jobTitle"),
       jobCategory: formData.get("jobCategory"),
@@ -58,14 +59,15 @@ export function EditJobModal({ companyJob }) {
       benefits: formData.get("benefits"),
     };
 
-    // কনসোলে নতুন অবজেক্টটি লগ করা হচ্ছে
-    console.log("Edited Data Saved:", editedData);
+    const res = await editJob(companyJob._id, editedData);
 
-    // সফলভাবে সাবমিট হওয়ার পর মোডাল বন্ধ করে দেওয়া হচ্ছে
-    setIsOpen(false);
+    if (res.modifiedCount > 0) {
+      router.refresh();
+      toast("Job Updated");
+      setIsOpen(false);
+    }
   };
 
-  // ইনপুট এবং টেক্সটএরিয়াতে বর্ডার দেখানোর জন্য কমন টেলউইন্ড ক্লাস
   const inputBorderClass =
     "border border-zinc-700 focus-within:border-zinc-500 rounded-lg bg-zinc-900/50";
 
@@ -89,7 +91,7 @@ export function EditJobModal({ companyJob }) {
 
             <Modal.Body className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
               <Surface variant="default">
-                <Form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                   <FieldGroup className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Job Title */}
                     <TextField
@@ -380,7 +382,7 @@ export function EditJobModal({ companyJob }) {
                       </Button>
                     </Fieldset.Actions>
                   </Fieldset>
-                </Form>
+                </form>
               </Surface>
             </Modal.Body>
           </Modal.Dialog>
