@@ -3,6 +3,7 @@ import { getUserSessionInServer } from "@/lib/core/session";
 import { redirect } from "next/navigation";
 import React from "react";
 import ApplyJobForm from "./ApplyJobForm";
+import Image from "next/image";
 
 const ApplyJobPage = async ({ params }) => {
   const { id } = await params;
@@ -35,7 +36,9 @@ const ApplyJobPage = async ({ params }) => {
           <div className="flex items-center gap-5 mb-6">
             <div className="w-16 h-16 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center justify-center overflow-hidden shrink-0 border border-zinc-200 dark:border-zinc-700">
               {applyingJob.companyLogo ? (
-                <img
+                <Image
+                  width={600}
+                  height={500}
                   src={applyingJob.companyLogo}
                   alt={applyingJob.companyName}
                   className="w-full h-full object-cover"
@@ -83,7 +86,7 @@ const ApplyJobPage = async ({ params }) => {
         </div>
 
         {/* The Application Form */}
-        <ApplyJobForm applyingJob={applyingJob} />
+        <ApplyJobForm applyingJob={applyingJob} user={user} />
       </div>
     </div>
   );

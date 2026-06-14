@@ -2,9 +2,11 @@
 
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { submitUserApplication } from "@/lib/actions/applications";
+import toast from "react-hot-toast";
 
 const ApplyJobForm = ({ applyingJob, user }) => {
-  //   console.log(user);
+  // console.log(user);
   const containerRef = useRef(null);
 
   // GSAP Animations
@@ -32,7 +34,7 @@ const ApplyJobForm = ({ applyingJob, user }) => {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Extract data from the form
@@ -42,6 +44,13 @@ const ApplyJobForm = ({ applyingJob, user }) => {
     // Add Job ID to the submission data implicitly
     applicationData.jobId = applyingJob?._id;
     applicationData.applicantId = user?.id;
+
+    const res = await submitUserApplication(applicationData);
+    if (res.insertedId) {
+      toast.success("applying successfully.");
+    } else {
+      toast.error("Something was wrong");
+    }
 
     // Log the Form Data
     console.log("📝 Application Submitted Data:", applicationData);
