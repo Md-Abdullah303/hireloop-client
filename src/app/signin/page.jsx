@@ -1,10 +1,12 @@
 import SignInForm from "@/components/Form/SignInForm";
-import React from "react";
+import React, { Suspense } from "react";
 
 const page = () => {
   return (
     <div>
-      <SignInForm />
+      <Suspense fallback={<p>loading...</p>}>
+        <SignInForm />
+      </Suspense>
     </div>
   );
 };

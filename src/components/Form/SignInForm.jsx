@@ -15,7 +15,7 @@ import {
 
 import { Check, Xmark } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -24,6 +24,9 @@ export default function SignInForm() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   // GSAP Entrance Animation
   useEffect(() => {
@@ -62,7 +65,7 @@ export default function SignInForm() {
           yoyo: true,
           repeat: 1,
           onComplete: () => {
-            router.push("/");
+            router.push(redirectTo);
           },
         });
       }
@@ -177,7 +180,7 @@ export default function SignInForm() {
             <p className="text-sm text-zinc-400 text-center sm:text-left">
               {`Don't have an account?`}{" "}
               <Link
-                href="/signup"
+                href={`${redirectTo === "/" ? `/signup` : `/signup?redirect=${redirectTo}`}`}
                 className="text-white hover:underline font-medium transition-all"
               >
                 Sign Up
