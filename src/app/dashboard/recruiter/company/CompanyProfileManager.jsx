@@ -23,6 +23,7 @@ import {
 } from "@gravity-ui/icons";
 import { createCompany } from "@/lib/actions/companies";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 // --- IMGBB UPLOAD HELPER ---
 async function uploadToImgbb(file) {
@@ -56,6 +57,7 @@ async function uploadToImgbb(file) {
 
 // ==================== MAIN COMPONENT ====================
 export default function CompanyProfileManager({ userData, recruiterCompany }) {
+  const router = useRouter();
   // --- STATES ---
   const [company, setCompany] = useState(recruiterCompany);
 
@@ -108,6 +110,7 @@ export default function CompanyProfileManager({ userData, recruiterCompany }) {
     const response = await createCompany(companyData);
     if (response.insertedId) {
       toast.success("company was added successfully");
+      router.refresh();
     }
 
     // console.log(companyData);

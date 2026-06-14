@@ -24,9 +24,14 @@ import {
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import { createJob } from "@/lib/actions/jobs";
-import { useRouter } from "next/navigation"; // redirect এর বদলে useRouter ব্যবহার করা ভালো
+import { redirect, useRouter } from "next/navigation"; // redirect এর বদলে useRouter ব্যবহার করা ভালো
 
 export default function NewJobsForm({ company }) {
+  if (!company) {
+    toast("Plz First Add a company");
+    redirect("/dashboard/recruiter/company");
+  }
+
   const router = useRouter();
 
   // ১. আপনার ডাটাবেজের স্ট্যাটাস চেক ("Approved" হলে পোস্ট করতে পারবে)

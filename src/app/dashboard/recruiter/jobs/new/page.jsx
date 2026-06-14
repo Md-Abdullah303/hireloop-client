@@ -5,6 +5,8 @@ import { getLoggedIdRecruiterCompany } from "@/lib/api/companies";
 const NewJobsPage = async () => {
   const company = await getLoggedIdRecruiterCompany();
 
+  console.log(company);
+
   return (
     <div>
       <NewJobsForm company={company} />
