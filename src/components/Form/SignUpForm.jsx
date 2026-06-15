@@ -51,12 +51,15 @@ export default function SignUpForm() {
     const email = formData.get("email");
     const password = formData.get("password");
 
+    const plan = role === "seeker" ? "seeker-free" : "recruiter-free";
+
     try {
       const res = await authClient.signUp.email({
         name,
         email,
         password,
         role,
+        plan,
       });
 
       if (res?.error) {

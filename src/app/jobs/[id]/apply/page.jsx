@@ -6,6 +6,7 @@ import ApplyJobForm from "./ApplyJobForm";
 import Image from "next/image";
 import { getApplicationBySeekerId } from "@/lib/api/applications";
 import Link from "next/link";
+import { getPlanById } from "@/lib/api/plans";
 
 const ApplyJobPage = async ({ params }) => {
   const { id } = await params;
@@ -54,10 +55,13 @@ const ApplyJobPage = async ({ params }) => {
     );
   }
 
-  const plan = {
-    name: "Free",
-    maxApplicationsPerMonth: 3,
-  };
+  const plan = (await getPlanById(user.plan)) || "seeker-free";
+  // console.log(plan1);
+
+  // const plan = {
+  //   name: "Free",
+  //   maxApplicationsPerMonth: 3,
+  // };
   const seekerApplicant = await getApplicationBySeekerId(user.id);
   const currentApplicationsCount = seekerApplicant?.length || 0;
   const hasRemainingApplications =
