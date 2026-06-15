@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import HomaPageHeading from "./HomaPageHeading";
-import { SubscriptionPlan } from "./SubscriptionPlan";
+import SubscriptionPlan from "./SubscriptionPlan";
 
 gsap.registerPlugin(ScrollTrigger);
 
