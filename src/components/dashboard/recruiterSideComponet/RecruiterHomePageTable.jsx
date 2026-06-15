@@ -66,7 +66,6 @@ export function RecruiterHomapageTable() {
         <Table
           aria-label="Recruiter Candidates Dashboard Table"
           className="min-w-[800px] text-zinc-300 selection:bg-zinc-800"
-          removeWrapper // Removes the default white/light background wrapper from HeroUI
         >
           <Table.ResizableContainer>
             <Table.Content>
@@ -162,11 +161,11 @@ export function RecruiterHomapageTable() {
                           color={chipConfig.color}
                           variant={chipConfig.variant}
                           size="sm"
-                          className="px-3 py-1 font-medium capitalize"
-                          classNames={{
-                            base: "bg-opacity-10 border-none", // Keeps soft background matching dark themes
-                            content: "font-semibold text-xs tracking-wide",
-                          }}
+                          className="px-3 py-1 font-medium capitalize bg-opacity-10 border-none font-semibold text-xs tracking-wide"
+                          // classNames={{
+                          //   base: "bg-opacity-10 border-none", // Keeps soft background matching dark themes
+                          //   content: "font-semibold text-xs tracking-wide",
+                          // }}
                         >
                           {candidate.status}
                         </Chip>

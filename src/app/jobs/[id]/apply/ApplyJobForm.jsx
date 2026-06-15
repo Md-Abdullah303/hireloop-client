@@ -4,8 +4,10 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { submitUserApplication } from "@/lib/actions/applications";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const ApplyJobForm = ({ applyingJob, user }) => {
+  const router = useRouter();
   // console.log(user);
   const containerRef = useRef(null);
 
@@ -48,6 +50,7 @@ const ApplyJobForm = ({ applyingJob, user }) => {
     const res = await submitUserApplication(applicationData);
     if (res.insertedId) {
       toast.success("applying successfully.");
+      router.refresh();
     } else {
       toast.error("Something was wrong");
     }
