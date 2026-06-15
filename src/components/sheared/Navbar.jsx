@@ -35,6 +35,18 @@ export default function Navbar() {
     },
   ];
 
+  const DashboardLink = {
+    seeker: "/dashboard/seeker",
+    recruiter: "/dashboard/recruiter",
+  };
+
+  if (userData) {
+    navItems.push({
+      label: "Dashboard",
+      href: DashboardLink[userData?.role],
+    });
+  }
+
   return (
     <div className="fixed top-0 left-0 z-50 w-full px-4 py-5">
       <nav className="mx-auto max-w-7xl rounded-3xl border border-white/10 bg-[#222222] backdrop-blur-xl">
@@ -56,14 +68,14 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-12">
-              {userData && (
+              {/* {userData && (
                 <Link
                   href={`/dashboard/${userData.role}`}
                   className="text-sm font-medium text-zinc-300 transition-all duration-300 hover:text-white"
                 >
                   Dashboard
                 </Link>
-              )}
+              )} */}
               {navItems.map((item) => (
                 <Link
                   key={item.label}
