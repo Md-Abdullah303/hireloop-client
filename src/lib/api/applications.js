@@ -1,5 +1,5 @@
-import { serverFetch } from "../core/server";
+import { protectedFetch } from "../core/server";
 
 export const getApplicationBySeekerId = async (seekerId) => {
-  return await serverFetch(`/api/applications?applicantId=${seekerId}`);
+  return await protectedFetch(`/api/applications?applicantId=${seekerId}`);
 };
