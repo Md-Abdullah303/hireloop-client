@@ -171,14 +171,6 @@ export default function Navbar() {
         >
           <div className="border-t border-white/10 px-6 py-6">
             <div className="flex flex-col gap-4">
-              {userData && (
-                <Link
-                  href={`/dashboard/${userData.role}`}
-                  className="py-2 text-zinc-300 hover:text-white"
-                >
-                  Dashboard
-                </Link>
-              )}
               {navItems.map((item) => (
                 <Link
                   key={item.label}
@@ -206,12 +198,12 @@ export default function Navbar() {
                   </>
                 ) : (
                   <div className="flex flex-col gap-4">
-                    <Link href="/signup" variant="bordered" fullWidth>
-                      Sign Up
+                    <Link href="/signin" variant="bordered" fullWidth>
+                      Sign In
                     </Link>
 
                     <Button color="primary" fullWidth>
-                      <Link href="/">Get Started</Link>
+                      <Link href="/signup">Get Started</Link>
                     </Button>
                   </div>
                 )}
