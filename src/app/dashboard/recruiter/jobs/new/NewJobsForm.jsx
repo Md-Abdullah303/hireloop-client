@@ -21,6 +21,7 @@ import {
   TextArea,
   TextField,
   Dropdown,
+  Chip,
 } from "@heroui/react";
 import toast from "react-hot-toast";
 import { createJob } from "@/lib/actions/jobs";
@@ -35,8 +36,8 @@ export default function NewJobsForm({ company }) {
   const router = useRouter();
 
   // ১. আপনার ডাটাবেজের স্ট্যাটাস চেক ("Approved" হলে পোস্ট করতে পারবে)
-  // const isApproved = company?.status === "Approved";
-  const isApproved = true;
+  const isApproved = company?.status === "Approved";
+  // const isApproved = true;
 
   // ২. সেফটি চেক (যদি ডেটাতে plan বা activeJobsCount না থাকে তবে ডিফল্ট ভ্যালু)
   const companyPlan = company?.plan || "Free";
@@ -126,6 +127,11 @@ export default function NewJobsForm({ company }) {
             <h4 className="text-white text-lg font-bold">
               {company?.name || "N/A"}
             </h4>
+            <Chip
+              className={`rounded-lg ${company?.status !== "Approved" ? `text-yellow-600 bg-yellow-50` : `text-green-600 bg-green-50`}`}
+            >
+              {company?.status}
+            </Chip>
           </div>
           <div className="text-sm text-zinc-400 sm:text-right">
             <div>

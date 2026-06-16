@@ -103,7 +103,7 @@ export default function CompanyProfileManager({ userData, recruiterCompany }) {
       industry: industry,
       employeeCount: employeeCount,
       logo: logoUrl || (company ? company.logo : ""),
-      status: company ? company.status : "Pending", // নতুন রেজিস্ট্রেশনে ডিফল্ট 'Pending'
+      status: company && company.status ? company.status : "Pending", // নতুন রেজিস্ট্রেশনে ডিফল্ট 'Pending'
       recruiterId: userData?.id,
     };
 
@@ -111,6 +111,8 @@ export default function CompanyProfileManager({ userData, recruiterCompany }) {
     if (response.insertedId) {
       toast.success("company was added successfully");
       router.refresh();
+      const savedCompany = { ...companyData, _id: response.insertedId };
+      setCompany(savedCompany);
     }
 
     // console.log(companyData);

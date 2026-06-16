@@ -46,6 +46,7 @@ const ApplyJobForm = ({ applyingJob, user }) => {
     // Add Job ID to the submission data implicitly
     applicationData.jobId = applyingJob?._id;
     applicationData.applicantId = user?.id;
+    applicationData.status = "applied";
 
     const res = await submitUserApplication(applicationData);
     if (res.insertedId) {

@@ -38,6 +38,7 @@ export default function Navbar() {
   const DashboardLink = {
     seeker: "/dashboard/seeker",
     recruiter: "/dashboard/recruiter",
+    admin: "/dashboard/admin",
   };
 
   if (userData) {

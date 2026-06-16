@@ -3,7 +3,6 @@ import {
   LayoutSideContent,
   Suitcase,
   Envelope,
-  Gear,
   House,
   Plus,
   Person,
@@ -11,6 +10,11 @@ import {
   FileText,
   CreditCard,
   LayoutCellsLarge,
+  Briefcase,
+  PersonFill,
+  HouseFill,
+  Gear,
+  FileDollar,
 } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
 import Link from "next/link";
@@ -64,9 +68,43 @@ export async function DashboardSidebar() {
     },
   ];
 
+  const adminSidebarLink = [
+    {
+      icon: LayoutCellsLarge,
+      label: "Dashboard",
+      href: "/dashboard/admin",
+    },
+    {
+      icon: PersonFill,
+      label: "Users",
+      href: "/dashboard/admin/users",
+    },
+    {
+      icon: HouseFill,
+      label: "Companies",
+      href: "/dashboard/admin/companies",
+    },
+    {
+      icon: Briefcase,
+      label: "Jobs",
+      href: "/dashboard/admin/jobs",
+    },
+    {
+      icon: FileDollar,
+      label: "Payments",
+      href: "/dashboard/admin/payments",
+    },
+    {
+      icon: Gear,
+      label: "Settings",
+      href: "/dashboard/admin/settings",
+    },
+  ];
+
   const navLinksMap = {
     seeker: seekerSidebarLink,
     recruiter: recruiterSidebarLink,
+    admin: adminSidebarLink,
   };
 
   const navItems = navLinksMap[user?.role || "seeker"];
