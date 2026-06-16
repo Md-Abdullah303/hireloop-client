@@ -5,6 +5,8 @@ import { Table, Chip, Button } from "@heroui/react";
 import { CircleCheck, CircleXmark, Eye } from "@gravity-ui/icons";
 import Image from "next/image";
 import Link from "next/link";
+import { updateCompanyStatus } from "@/lib/actions/companies";
+import toast from "react-hot-toast";
 
 export default function CompaniesTable({ companies = [] }) {
   const getStatusColor = (status) => {
@@ -23,12 +25,16 @@ export default function CompaniesTable({ companies = [] }) {
     console.log("View button clicked for Company ID:", id);
   };
 
-  const handleApprove = (id) => {
-    console.log("Approve button clicked for Company ID:", id);
+  const handleApprove = async (id) => {
+    const result = await updateCompanyStatus(id, { status: "Approved" });
+    // console.log("Approve button clicked for Company ID:", id, result);
+    toast.success("Company was approved");
   };
 
-  const handleReject = (id) => {
+  const handleReject = async (id) => {
+    const result = await updateCompanyStatus(id, { status: "Rejected" });
     console.log("Reject button clicked for Company ID:", id);
+    toast.error("Company was rejected");
   };
 
   return (
@@ -106,43 +112,49 @@ export default function CompaniesTable({ companies = [] }) {
 
                   {/* Actions (Buttons) */}
                   <Table.Cell>
-                    <div className="flex items-center justify-center gap-2">
-                      {/* View Button */}
-                      <Button
-                        isIconOnly
-                        size="sm"
-                        variant="flat"
-                        color="primary"
-                        onClick={() => handleView(company._id)}
-                      >
-                        <Eye className="size-4" />
-                      </Button>
-
-                      {/* UI Condition: স্ট্যাটাস approved হলে এই বাটনটি দেখাবে না */}
-                      {!isApproved && (
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="col-span-1">
+                        {/* View Button */}
                         <Button
-                          className="bg-green-600 text-white flex items-center gap-1 px-3"
+                          isIconOnly
                           size="sm"
-                          onClick={() => handleApprove(company._id)}
-                        >
-                          <CircleCheck className="size-4" />
-                          <span className="text-xs">Approved</span>
-                        </Button>
-                      )}
-
-                      {/* UI Condition: স্ট্যাটাস rejected হলে এই বাটনটি দেখাবে না */}
-                      {!isRejected && (
-                        <Button
-                          className="flex items-center gap-1 px-3"
-                          size="sm"
-                          color="danger"
                           variant="flat"
-                          onClick={() => handleReject(company._id)}
+                          color="primary"
+                          onClick={() => handleView(company._id)}
                         >
-                          <CircleXmark className="size-4" />
-                          <span className="text-xs">Reject</span>
+                          <Eye className="size-4" />
                         </Button>
-                      )}
+                      </div>
+
+                      <div className="col-span-1">
+                        {/* UI Condition: স্ট্যাটাস approved হলে এই বাটনটি দেখাবে না */}
+                        {!isApproved && (
+                          <Button
+                            className="bg-green-600 text-white flex items-center gap-1 px-3"
+                            size="sm"
+                            onClick={() => handleApprove(company._id)}
+                          >
+                            <CircleCheck className="size-4" />
+                            <span className="text-xs">Approved</span>
+                          </Button>
+                        )}
+                      </div>
+
+                      <div className="col-span-1">
+                        {/* UI Condition: স্ট্যাটাস rejected হলে এই বাটনটি দেখাবে না */}
+                        {!isRejected && (
+                          <Button
+                            className="flex items-center gap-1 px-3 "
+                            size="sm"
+                            // color="danger"
+                            variant="danger"
+                            onClick={() => handleReject(company._id)}
+                          >
+                            <CircleXmark className="size-4" />
+                            <span className="text-xs">Reject</span>
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </Table.Cell>
                 </Table.Row>
