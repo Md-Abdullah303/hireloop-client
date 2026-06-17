@@ -1,12 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { InputGroup, Label, TextField, Select, ListBox } from "@heroui/react";
+import React, { useEffect, useState } from "react";
+import {
+  InputGroup,
+  Label,
+  TextField,
+  Select,
+  ListBox,
+  RadioGroup,
+  Radio,
+} from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 // Search Icon SVG
 const SearchIcon = () => (
   <svg
-    className="size-4 text-muted"
+    className="size-4 text-zinc-400 dark:text-zinc-500"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -20,49 +29,72 @@ const SearchIcon = () => (
   </svg>
 );
 
-export default function JobFilterBar({ onFilterChange }) {
-  // State for all filter fields
-  const [search, setSearch] = useState("");
-  const [jobType, setJobType] = useState("all");
-  const [workSetting, setWorkSetting] = useState("all");
-  const [minSalary, setMinSalary] = useState("");
+export default function JobFilterBar({ jobs, filter }) {
+  // State variables
+  const [search, setSearch] = useState(filter.search);
+  const [jobType, setJobType] = useState(filter.jobType || "all");
+  const [onRemote, setOnRemote] = useState(filter.isRemote || false);
 
-  // Trigger the parent filter function whenever any state changes
+  const handleJobTypeChange = (keys) => {
+    const selectedValue = keys || "all";
+    setJobType(selectedValue);
+  };
+  const handleRemoteToggle = (e) => {
+    e.preventDefault();
+    setOnRemote((prev) => !prev);
+  };
+
+  const router = useRouter();
+
   useEffect(() => {
-    onFilterChange({
-      search: search.trim().toLowerCase(),
-      jobType,
-      workSetting,
-      minSalary: minSalary ? parseFloat(minSalary) : 0,
-    });
-  }, [search, jobType, workSetting, minSalary, onFilterChange]);
+    const sp = new URLSearchParams();
+    if (search) {
+      sp.set("search", search);
+    }
+    if (jobType !== "all") {
+      sp.set("jobType", jobType);
+    }
+    if (onRemote) {
+      sp.set("isRemote", true);
+    }
+
+    const path = `?${sp.toString()}`;
+    router.push(path);
+  }, [jobType, router, search, onRemote]);
 
   return (
-    <div className="w-full bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row gap-4 items-end">
-      {/* 1. Text Search Input */}
-      <TextField className="w-full md:max-w-[300px]" name="search">
-        <Label className="text-sm font-medium mb-1.5 block">Search Jobs</Label>
-        <InputGroup>
-          <InputGroup.Prefix>
-            <SearchIcon />
-          </InputGroup.Prefix>
-          <InputGroup.Input
-            className="w-full"
-            placeholder="Title, keywords, or company..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </InputGroup>
-      </TextField>
+    <div className="w-full bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row gap-6 items-start md:items-end">
+      {/* ১. Text Search Input */}
+      <div className="w-full md:max-w-[300px]">
+        <Label className="text-sm font-medium mb-1.5 block text-zinc-700 dark:text-zinc-300">
+          Search Jobs
+        </Label>
+        <TextField name="search" aria-label="Search Jobs">
+          <InputGroup>
+            <InputGroup.Prefix>
+              <SearchIcon />
+            </InputGroup.Prefix>
+            <InputGroup.Input
+              className="w-full"
+              placeholder="Title, keywords, or company..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </InputGroup>
+        </TextField>
+      </div>
 
-      {/* 2. Job Type Dropdown */}
+      {/* ২. Job Type Dropdown */}
       <div className="w-full md:w-[180px]">
-        <Label className="text-sm font-medium mb-1.5 block">Job Type</Label>
+        <Label className="text-sm font-medium mb-1.5 block text-zinc-700 dark:text-zinc-300">
+          Job Type
+        </Label>
         <Select
           className="w-full"
           placeholder="All Types"
           selectedKeys={new Set([jobType])}
-          onSelectionChange={(keys) => setJobType(Array.from(keys)[0])}
+          onSelectionChange={handleJobTypeChange}
+          aria-label="Job Type"
         >
           <Select.Trigger>
             <Select.Value />
@@ -87,68 +119,28 @@ export default function JobFilterBar({ onFilterChange }) {
         </Select>
       </div>
 
-      {/* 3. Remote vs On-Site Dropdown */}
-      <div className="w-full md:w-[180px]">
-        <Label className="text-sm font-medium mb-1.5 block">Work Setting</Label>
-        <Select
-          className="w-full"
-          placeholder="All Settings"
-          selectedKeys={new Set([workSetting])}
-          onSelectionChange={(keys) => setWorkSetting(Array.from(keys)[0])}
+      {/* ৩. Remote Filter (Your Exact HeroUI Sub-component structure) */}
+      <div className="w-full md:w-auto">
+        <RadioGroup
+          value={onRemote ? "remote" : ""}
+          aria-label="Location Filter"
         >
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              <ListBox.Item id="all" textValue="All Settings">
-                All Settings
-              </ListBox.Item>
-              <ListBox.Item id="remote" textValue="Remote Only">
-                Remote Only
-              </ListBox.Item>
-              <ListBox.Item id="onsite" textValue="On-site / Hybrid">
-                On-site / Hybrid
-              </ListBox.Item>
-            </ListBox>
-          </Select.Popover>
-        </Select>
+          <Radio
+            value="remote"
+            onClick={handleRemoteToggle}
+            className="border-zinc-200 dark:border-zinc-800 group cursor-pointer rounded-xl border-2 p-3 hover:border-blue-300 data-[selected=true]:border-blue-500 data-[selected=true]:bg-blue-500/10 transition-all select-none"
+          >
+            <Radio.Content className="flex flex-row items-center gap-2">
+              <Radio.Control>
+                <Radio.Indicator className="border-zinc-300 border-2 group-hover:border-blue-400 group-data-[selected=true]:border-blue-500 group-data-[selected=true]:bg-blue-500" />
+              </Radio.Control>
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                Remote Jobs
+              </span>
+            </Radio.Content>
+          </Radio>
+        </RadioGroup>
       </div>
-
-      {/* 4. Minimum Salary Input */}
-      <TextField className="w-full md:max-w-[160px]" name="minSalary">
-        <Label className="text-sm font-medium mb-1.5 block">
-          Min Salary (USD)
-        </Label>
-        <InputGroup>
-          <InputGroup.Prefix>
-            <span className="text-sm text-muted">$</span>
-          </InputGroup.Prefix>
-          <InputGroup.Input
-            type="number"
-            className="w-full"
-            placeholder="e.g. 10000"
-            value={minSalary}
-            onChange={(e) => setMinSalary(e.target.value)}
-          />
-        </InputGroup>
-      </TextField>
-
-      {/* Clear Filters Button */}
-      {(search || jobType !== "all" || workSetting !== "all" || minSalary) && (
-        <button
-          onClick={() => {
-            setSearch("");
-            setJobType("all");
-            setWorkSetting("all");
-            setMinSalary("");
-          }}
-          className="text-sm text-danger hover:underline h-10 px-2 transition-all self-center md:self-end"
-        >
-          Clear
-        </button>
-      )}
     </div>
   );
 }

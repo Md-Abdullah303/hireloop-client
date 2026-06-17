@@ -2,9 +2,19 @@ import React from "react";
 import { getAllJob } from "@/lib/api/jobs";
 import FilteredJobsContainer from "@/components/UI/card/FilteredJobsContainer";
 
-const JobsPage = async () => {
+const JobsPage = async ({ searchParams }) => {
+  const filter = await searchParams;
+  const filterObj = {
+    ...filter,
+    isRemote: filter.isRemote === "true" ? true : false,
+  };
+
+  const querySearch = new URLSearchParams(filter);
+  const queryString = querySearch.toString();
+  // console.log("wanted ", queryString);
+
   // Fetching data on the server safely
-  const jobs = (await getAllJob()) || [];
+  const jobs = (await getAllJob(queryString)) || [];
 
   return (
     <div className="w-[90%] max-w-7xl mx-auto">
@@ -19,7 +29,7 @@ const JobsPage = async () => {
         </div>
 
         {/* Client side container handles interactive searching & filtering */}
-        <FilteredJobsContainer initialJobs={jobs} />
+        <FilteredJobsContainer filter={filterObj} jobs={jobs} />
       </div>
     </div>
   );
