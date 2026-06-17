@@ -29,7 +29,7 @@ const SearchIcon = () => (
   </svg>
 );
 
-export default function JobFilterBar({ jobs, filter }) {
+export default function JobFilterBar({ jobs, filter, page }) {
   // State variables
   const [search, setSearch] = useState(filter.search);
   const [jobType, setJobType] = useState(filter.jobType || "all");
@@ -58,9 +58,13 @@ export default function JobFilterBar({ jobs, filter }) {
       sp.set("isRemote", true);
     }
 
+    if (page) {
+      sp.set("page", page);
+    }
+
     const path = `?${sp.toString()}`;
     router.push(path);
-  }, [jobType, router, search, onRemote]);
+  }, [jobType, router, search, onRemote, page]);
 
   return (
     <div className="w-full bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col md:flex-row gap-6 items-start md:items-end">

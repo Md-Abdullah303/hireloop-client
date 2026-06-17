@@ -14,7 +14,7 @@ const JobsPage = async ({ searchParams }) => {
   // console.log("wanted ", queryString);
 
   // Fetching data on the server safely
-  const jobs = (await getAllJob(queryString)) || [];
+  const { jobs, total } = (await getAllJob(queryString)) || [];
 
   return (
     <div className="w-[90%] max-w-7xl mx-auto">
@@ -29,7 +29,7 @@ const JobsPage = async ({ searchParams }) => {
         </div>
 
         {/* Client side container handles interactive searching & filtering */}
-        <FilteredJobsContainer filter={filterObj} jobs={jobs} />
+        <FilteredJobsContainer total={total} filter={filterObj} jobs={jobs} />
       </div>
     </div>
   );
