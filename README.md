@@ -19,12 +19,26 @@ To deploy this project run
 - User can signup
 - Responsive Design
 
-## Use Tool
+## Tools and Technologies
+
+### Design / Prototyping
+
+- Tailwind CSS
+- HeroUI
+- GSAP
+
+### Development / Tooling
 
 - Next.js
+- React
 - Node.js
-- Mongodb
-- Tailwindcss
-- HeroUI
-- Gsep
+- MongoDB
 - Better Auth
+- Stripe API
+- ESLint
+
+### Deployment / Cloud Platforms
+
+- Vercel
+- MongoDB Atlas
+- Stripe Checkout
